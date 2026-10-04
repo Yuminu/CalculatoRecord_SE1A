@@ -1,0 +1,18 @@
+{
+  "light": {
+    "--color-bg": "#f5f6fa",
+    "--color-panel": "#ffffff",
+    "--color-primary": "#4c6ef5",
+    "--color-primary-dark": "#364fc7",
+    "--color-text": "#1f2933",
+    "--color-muted": "#7b8794"
+  },
+  "dark": {
+    "--color-bg": "#1f2933",
+    "--color-panel": "#27323d",
+    "--color-primary": "#748ffc",
+    "--color-primary-dark": "#5c7cfa",
+    "--color-text": "#f5f7fa",
+    "--color-muted": "#9aa5b1"
+  }
+}
