@@ -10,6 +10,7 @@ vi.mock('../src/api', () => ({
   deleteHistoryRecord: vi.fn(),
   clearHistory: vi.fn(),
   checkHealth: vi.fn(),
+  toggleFavorite: vi.fn(),
 }));
 
 import * as api from '../src/api';
@@ -85,5 +86,34 @@ describe('calculator store', () => {
 
     expect(response.ok).toBe(false);
     expect(response.message).toBe('Division by zero');
+  });
+
+  it('toggles a favorite and refreshes the lists', async () => {
+    const store = useCalculatorStore();
+    api.toggleFavorite.mockResolvedValue({
+      data: { success: true, is_favorite: true },
+    });
+
+    const response = await store.toggleFavorite(5);
+
+    expect(response.ok).toBe(true);
+    expect(api.toggleFavorite).toHaveBeenCalledWith(5);
+    expect(api.fetchHistory).toHaveBeenCalled();
+  });
+
+  it('loads the favorites list from the backend', async () => {
+    const store = useCalculatorStore();
+    api.fetchHistory.mockResolvedValue({
+      data: { data: [{ id: 1, is_favorite: true }], total: 1 },
+    });
+
+    await store.fetchFavorites();
+
+    expect(api.fetchHistory).toHaveBeenCalledWith({
+      favorite: true,
+      limit: 20,
+    });
+    expect(store.favorites).toHaveLength(1);
+    expect(store.favoritesTotal).toBe(1);
   });
 });
