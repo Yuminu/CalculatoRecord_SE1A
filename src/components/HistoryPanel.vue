@@ -34,10 +34,15 @@
           <button
             type="button"
             class="history__favorite"
-            disabled
-            title="Favorite feature (reserved)"
+            :class="{ 'is-active': item.is_favorite }"
+            :title="
+              item.is_favorite
+                ? 'Remove from favorites'
+                : 'Add to favorites'
+            "
+            @click="emit('toggle-favorite', item.id)"
           >
-            ☆
+            {{ item.is_favorite ? '★' : '☆' }}
           </button>
           <button
             type="button"
@@ -64,7 +69,12 @@ defineProps({
   total: { type: Number, default: 0 },
 });
 
-const emit = defineEmits(['delete', 'clear-all', 'refresh']);
+const emit = defineEmits([
+  'delete',
+  'clear-all',
+  'refresh',
+  'toggle-favorite',
+]);
 </script>
 
 <style scoped>
@@ -180,7 +190,19 @@ const emit = defineEmits(['delete', 'clear-all', 'refresh']);
 .history__favorite {
   background: #f1f3f5;
   color: #adb5bd;
-  cursor: not-allowed;
+}
+
+.history__favorite:hover {
+  background: #e9ecef;
+}
+
+.history__favorite.is-active {
+  background: #fff9db;
+  color: #f59f00;
+}
+
+.history__favorite.is-active:hover {
+  background: #ffec99;
 }
 
 .history__delete {

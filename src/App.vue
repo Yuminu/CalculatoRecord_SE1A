@@ -1,86 +1,15 @@
 <template>
   <div class="app">
-    <header class="app__header">
-      <h1 class="app__title">Web Calculator</h1>
-    </header>
-
-    <main class="app__main">
-      <Calculator
-        :expression="store.expression"
-        :result="store.result"
-        :loading="store.loading"
-        @update:expression="store.setExpression"
-        @calculate="onCalculate"
-      />
-      <HistoryPanel
-        :history="store.history"
-        :total="store.total"
-        @delete="onDelete"
-        @clear-all="onClearAll"
-        @refresh="store.fetchHistory"
-      />
-    </main>
-
-    <ConfirmDialog
-      :visible="showClearConfirm"
-      title="Clear All History"
-      message="Are you sure you want to clear all history? This cannot be undone."
-      confirm-text="Clear"
-      cancel-text="Cancel"
-      @confirm="confirmClearAll"
-      @cancel="showClearConfirm = false"
-    />
+    <Navbar />
+    <router-view />
   </div>
 </template>
 
 <script setup>
 /**
- * Root component: wires the two child components to the Pinia store and
- * displays native alert dialogs for backend/network errors.
+ * Root component: a persistent navigation bar plus the routed page.
  */
-import { onMounted, ref } from 'vue';
-import Calculator from './components/Calculator.vue';
-import ConfirmDialog from './components/ConfirmDialog.vue';
-import HistoryPanel from './components/HistoryPanel.vue';
-import { useCalculatorStore } from './store/calculator';
-
-const store = useCalculatorStore();
-
-// Controls the in-page confirmation dialog for "clear all history".
-const showClearConfirm = ref(false);
-
-const onCalculate = async () => {
-  const response = await store.calculate();
-  if (!response.ok) {
-    window.alert(response.message);
-  }
-};
-
-const onDelete = async (id) => {
-  const response = await store.removeHistory(id);
-  if (!response.ok) {
-    window.alert(response.message);
-  }
-};
-
-const onClearAll = () => {
-  showClearConfirm.value = true;
-};
-
-const confirmClearAll = async () => {
-  showClearConfirm.value = false;
-  const response = await store.clearAllHistory();
-  if (!response.ok) {
-    window.alert(response.message);
-  }
-};
-
-onMounted(() => {
-  store.fetchHistory();
-});
-
-// Reserved: global keyboard-shortcut listener placeholder.
-// See src/utils/keyMapping.js and requirements sections 6.5 / 14.
+import Navbar from './components/Navbar.vue';
 </script>
 
 <style>
@@ -107,29 +36,6 @@ body {
 .app {
   max-width: 960px;
   margin: 0 auto;
-  padding: 32px 16px 48px;
-}
-
-.app__header {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.app__title {
-  margin: 0;
-  font-size: 28px;
-}
-
-.app__main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  align-items: start;
-}
-
-@media (max-width: 720px) {
-  .app__main {
-    grid-template-columns: 1fr;
-  }
+  padding: 0 16px 48px;
 }
 </style>
