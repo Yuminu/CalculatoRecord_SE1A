@@ -1,114 +1,122 @@
 # studentID_calculator_frontend
 
-## 1. 项目简介（Project Introduction）
+## 1. Project Introduction
 
-本项目是「前后端分离计算器系统」的**前端**。它负责：
+This repository is the **front end** of the "front-end / back-end
+separated calculator system". It is responsible for:
 
-- 提供计算器界面（按钮点击 + 键盘输入）；
-- 通过 Axios 将表达式发送到后端 `POST /api/calculate`；
-- 展示后端返回的结果，并刷新历史记录面板；
-- 出现错误时使用浏览器原生 `alert()` 提示。
+- providing the calculator interface (button clicks + keyboard input);
+- sending expressions to the backend `POST /api/calculate` via Axios;
+- showing the result returned by the backend and refreshing the history
+  panel;
+- showing errors with a browser-native `alert()`.
 
-**核心约束**：前端不进行任何数学计算，结果完全来自后端。
+**Core constraint**: the front end performs no mathematical calculation;
+results come entirely from the backend.
 
-## 2. 技术栈（Technology Stack）
+## 2. Technology Stack
 
-| 组件 | 技术 | 版本 |
-|------|------|------|
-| 框架 | Vue 3（Composition API + `<script setup>`） | ^3.4.38 |
-| 构建工具 | Vite | ^5.4.2 |
-| 状态管理 | Pinia | ^2.2.2 |
-| HTTP 客户端 | Axios | ^1.7.2 |
-| 测试 | Vitest + @vue/test-utils + jsdom | ^2.0.5 |
-| 样式 | 原生 CSS（CSS 变量） | — |
+| Component | Technology | Version |
+|-----------|------------|---------|
+| Framework | Vue 3 (Composition API + `<script setup>`) | ^3.4.38 |
+| Build tool | Vite | ^5.4.2 |
+| State management | Pinia | ^2.2.2 |
+| HTTP client | Axios | ^1.7.2 |
+| Testing | Vitest + @vue/test-utils + jsdom | ^2.0.5 |
+| Styling | Native CSS (CSS variables) | - |
 
-## 3. 运行环境（Runtime Environment）
+## 3. Runtime Environment
 
-- Node.js 18 及以上（开发环境使用 v24）
-- npm（随 Node 安装）
+- Node.js 18 or newer (development used v24)
+- npm (installed with Node)
 
-## 4. 安装方法（Installation Method）
+## 4. Installation Method
 
 ```bash
 cd studentID_calculator_frontend
 npm install
 ```
 
-## 5. 启动方法（Startup Method）
+## 5. Startup Method
 
-### 开发模式
+### Development mode
 
 ```bash
 npm run dev
 ```
 
-浏览器访问 `http://localhost:5173`。
+Open `http://localhost:5173` in a browser.
 
-> 请确保后端已在 `http://localhost:5000` 运行（或修改 `.env`
-> 中的 `VITE_API_BASE_URL` 指向你的后端地址）。
+> Make sure the backend is running on `http://localhost:5000` (or change
+> `VITE_API_BASE_URL` in `.env` to point to your backend).
 
-### 生产构建与预览
+### Production build and preview
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## 6. 配置说明（Configuration Instructions）
+## 6. Configuration Instructions
 
-复制 `.env.example` 为 `.env`，按需修改后端地址：
+Copy `.env.example` to `.env` and adjust the backend address as needed:
 
 ```
 VITE_API_BASE_URL=http://localhost:5000
 ```
 
-若未设置，代码会默认使用 `http://localhost:5000`。Vite 中所有
-以 `VITE_` 开头的环境变量都会注入到前端代码中。
+If it is not set, the code falls back to `http://localhost:5000`. Every
+environment variable prefixed with `VITE_` is injected into the front-end
+code.
 
-## 7. 数据库初始化方法（Database Initialization Method）
+## 7. Database Initialization Method
 
-前端**不涉及数据库**。所有计算历史均由后端保存到 SQLite，
-前端只通过 API 读取与删除。数据库的自动创建见后端 README。
+The front end **does not use a database**. All calculation history is
+stored in SQLite by the backend; the front end only reads and deletes it
+through the API. Database auto-creation is described in the backend
+README.
 
-## 8. 前端/后端连接方法（Front-end/Back-end Connection Method）
+## 8. Front-end/Back-end Connection Method
 
-后端 API 的 baseURL 在前端集中配置于 **`src/api/index.js`**：
+The backend API baseURL is configured in one place in the front end, in
+**`src/api/index.js`**:
 
 ```js
 const baseURL = import.meta.env.VITE_API_BASE_URL
   || 'http://localhost:5000';
 ```
 
-修改方式有两种：
+There are two ways to change it:
 
-1. **环境变量**（推荐）：在项目根目录 `.env` 中设置
-   `VITE_API_BASE_URL`；
-2. **代码默认值**：直接修改 `src/api/index.js` 中的回退地址。
+1. **Environment variable** (recommended): set `VITE_API_BASE_URL` in the
+   `.env` file at the project root;
+2. **Code default**: edit the fallback address in `src/api/index.js`.
 
-后端已开启 CORS，因此开发时前端可直接跨端口访问，无需配置代理。
+CORS is enabled on the backend, so during development the front end can
+call the backend across ports without configuring a proxy.
 
-## 9. 项目目录结构（Project Structure）
+## 9. Project Structure
 
 ```
 studentID_calculator_frontend/
 ├── src/
 │   ├── api/
-│   │   └── index.js              # Axios 实例与 API 封装
+│   │   └── index.js              # Axios instance and API wrappers
 │   ├── components/
-│   │   ├── Calculator.vue        # 计算器主界面
-│   │   └── HistoryPanel.vue      # 历史记录面板
+│   │   ├── Calculator.vue        # Calculator interface
+│   │   └── HistoryPanel.vue      # History panel
 │   ├── store/
-│   │   └── calculator.js         # Pinia 状态管理
+│   │   └── calculator.js         # Pinia state management
 │   ├── utils/
-│   │   └── keyMapping.js         # 键盘快捷键（预留）
-│   ├── App.vue                   # 根组件
-│   └── main.js                   # 入口文件
+│   │   └── keyMapping.js         # Keyboard shortcuts (reserved)
+│   ├── App.vue                   # Root component
+│   └── main.js                   # Entry file
 ├── public/
 │   ├── favicon.svg
-│   └── theme.json                # 主题变量（预留）
+│   └── theme.json                # Theme variables (reserved)
 ├── tests/
-│   ├── store.spec.js             # 状态管理测试
-│   └── calculator.spec.js        # 组件测试
+│   ├── store.spec.js             # State management tests
+│   └── calculator.spec.js        # Component tests
 ├── index.html
 ├── vite.config.js
 ├── package.json
@@ -117,17 +125,17 @@ studentID_calculator_frontend/
 └── codestyle.md
 ```
 
-## 测试方法
+## Testing
 
 ```bash
 npm run test
 ```
 
-## 部署说明
+## Deployment
 
-1. 在 `.env`（或部署平台的环境变量）中把 `VITE_API_BASE_URL`
-   设置为后端公网地址；
-2. 执行 `npm run build`，产物位于 `dist/`；
-3. 将 `dist/` 部署到 Nginx 静态目录、Vercel 或 Netlify；
-4. 若使用 Nginx，可让 `/api/` 反向代理到后端（见后端仓库
-   `nginx.conf`），也可依赖后端已开启的 CORS。
+1. Set `VITE_API_BASE_URL` in `.env` (or the platform's environment
+   variables) to the backend's public address;
+2. Run `npm run build`; the output is in `dist/`;
+3. Deploy `dist/` to an Nginx static directory, Vercel or Netlify;
+4. If using Nginx, you can reverse-proxy `/api/` to the backend (see
+   `nginx.conf` in the backend repository) or rely on the backend's CORS.
