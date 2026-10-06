@@ -5,13 +5,13 @@
         class="calculator__input"
         type="text"
         :value="expression"
-        placeholder="请输入表达式，如 (1+2)*3"
-        aria-label="表达式输入"
+        placeholder="Enter an expression, e.g. (1+2)*3"
+        aria-label="Expression input"
         @input="onInput"
         @keyup.enter="emit('calculate')"
       />
       <div class="calculator__result">
-        <span class="calculator__result-label">结果</span>
+        <span class="calculator__result-label">Result</span>
         <span class="calculator__result-value">{{ displayResult }}</span>
       </div>
     </div>
@@ -34,9 +34,9 @@
       type="button"
       class="calculator__favorite"
       disabled
-      title="收藏功能（预留）"
+      title="Favorite feature (reserved)"
     >
-      ☆ 收藏（预留）
+      ☆ Favorite (reserved)
     </button>
   </section>
 </template>

@@ -38,10 +38,10 @@
  */
 defineProps({
   visible: { type: Boolean, default: false },
-  title: { type: String, default: '请确认' },
+  title: { type: String, default: 'Please confirm' },
   message: { type: String, default: '' },
-  confirmText: { type: String, default: '确认' },
-  cancelText: { type: String, default: '取消' },
+  confirmText: { type: String, default: 'Confirm' },
+  cancelText: { type: String, default: 'Cancel' },
 });
 
 const emit = defineEmits(['confirm', 'cancel']);

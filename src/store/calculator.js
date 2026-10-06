@@ -15,11 +15,11 @@ import {
 const ALLOWED_PATTERN = /^[0-9+\-*/().]*$/;
 
 const MESSAGE = {
-  network: '网络连接失败，请检查后端服务是否启动',
-  server: '服务器内部错误，请稍后重试',
-  illegal: '表达式包含非法字符',
-  empty: '表达式不能为空',
-  fallback: '请求失败',
+  network: 'Network error. Please check that the backend service is running.',
+  server: 'Server error. Please try again later.',
+  illegal: 'Expression contains illegal characters.',
+  empty: 'Expression cannot be empty.',
+  fallback: 'Request failed.',
 };
 
 export const useCalculatorStore = defineStore('calculator', {

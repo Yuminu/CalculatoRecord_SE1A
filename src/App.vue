@@ -1,8 +1,8 @@
 <template>
   <div class="app">
     <header class="app__header">
-      <h1 class="app__title">前后端分离计算器</h1>
-      <p class="app__subtitle">Vue 3 + Flask · 计算结果由后端返回</p>
+      <h1 class="app__title">Front-End / Back-End Calculator</h1>
+      <p class="app__subtitle">Vue 3 + Flask · Results computed by the backend</p>
     </header>
 
     <main class="app__main">
@@ -24,10 +24,10 @@
 
     <ConfirmDialog
       :visible="showClearConfirm"
-      title="清空全部历史"
-      message="确定要清空所有历史记录吗？此操作不可撤销。"
-      confirm-text="确认清空"
-      cancel-text="取消"
+      title="Clear All History"
+      message="Are you sure you want to clear all history? This cannot be undone."
+      confirm-text="Clear"
+      cancel-text="Cancel"
       @confirm="confirmClearAll"
       @cancel="showClearConfirm = false"
     />

@@ -15,11 +15,13 @@ describe('ConfirmDialog component', () => {
     const wrapper = mount(ConfirmDialog, {
       props: {
         visible: true,
-        title: '清空全部历史',
-        message: '确定要清空所有历史记录吗？',
+        title: 'Clear All History',
+        message: 'Are you sure you want to clear all history?',
       },
     });
-    expect(wrapper.text()).toContain('确定要清空所有历史记录吗？');
+    expect(wrapper.text()).toContain(
+      'Are you sure you want to clear all history?',
+    );
 
     await wrapper.find('.is-confirm').trigger('click');
     expect(wrapper.emitted('confirm')).toBeTruthy();

@@ -57,7 +57,7 @@ describe('calculator store', () => {
     const response = await store.calculate();
 
     expect(response.ok).toBe(false);
-    expect(response.message).toBe('表达式包含非法字符');
+    expect(response.message).toBe('Expression contains illegal characters.');
     expect(api.calculateExpression).not.toHaveBeenCalled();
   });
 
@@ -69,7 +69,9 @@ describe('calculator store', () => {
     const response = await store.calculate();
 
     expect(response.ok).toBe(false);
-    expect(response.message).toBe('网络连接失败，请检查后端服务是否启动');
+    expect(response.message).toBe(
+      'Network error. Please check that the backend service is running.',
+    );
   });
 
   it('shows the backend message for a 400 response', async () => {

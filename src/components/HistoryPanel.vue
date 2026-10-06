@@ -1,13 +1,13 @@
 <template>
   <aside class="history">
     <header class="history__header">
-      <h2 class="history__title">历史记录</h2>
-      <span class="history__count">共 {{ total }} 条</span>
+      <h2 class="history__title">History</h2>
+      <span class="history__count">{{ total }} records</span>
     </header>
 
     <div class="history__actions">
       <button type="button" class="history__button" @click="emit('refresh')">
-        刷新
+        Refresh
       </button>
       <button
         type="button"
@@ -15,11 +15,13 @@
         :disabled="history.length === 0"
         @click="emit('clear-all')"
       >
-        清空全部
+        Clear All
       </button>
     </div>
 
-    <p v-if="history.length === 0" class="history__empty">暂无记录</p>
+    <p v-if="history.length === 0" class="history__empty">
+      No records yet
+    </p>
 
     <ul v-else class="history__list">
       <li v-for="item in history" :key="item.id" class="history__item">
@@ -33,7 +35,7 @@
             type="button"
             class="history__favorite"
             disabled
-            title="收藏功能（预留）"
+            title="Favorite feature (reserved)"
           >
             ☆
           </button>
@@ -42,7 +44,7 @@
             class="history__delete"
             @click="emit('delete', item.id)"
           >
-            删除
+            Delete
           </button>
         </div>
       </li>
