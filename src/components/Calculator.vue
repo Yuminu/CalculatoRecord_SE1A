@@ -29,15 +29,6 @@
         {{ key.label }}
       </button>
     </div>
-
-    <button
-      type="button"
-      class="calculator__favorite"
-      disabled
-      title="Favorite feature (reserved)"
-    >
-      ☆ Favorite (reserved)
-    </button>
   </section>
 </template>
 
@@ -191,17 +182,6 @@ const onKeyClick = (key) => {
 
 .calculator__key:disabled {
   opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.calculator__favorite {
-  margin-top: 12px;
-  width: 100%;
-  padding: 8px 0;
-  border: 1px dashed #cbd2d9;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--color-muted);
   cursor: not-allowed;
 }
 </style>
