@@ -41,6 +41,7 @@
 
 .navbar__link {
   padding: 6px 12px;
+  border: 1px solid #d9dee5;
   border-radius: 8px;
   color: var(--color-text);
   text-decoration: none;
@@ -53,6 +54,7 @@
 
 .navbar__link.router-link-active {
   background: var(--color-primary);
+  border-color: var(--color-primary);
   color: #ffffff;
 }
 </style>
