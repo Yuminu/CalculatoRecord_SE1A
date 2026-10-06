@@ -20,20 +20,22 @@
 <style scoped>
 .navbar {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 16px;
   margin: 0 auto;
-  padding: 16px 0;
+  padding: 24px 0 12px;
 }
 
 .navbar__brand {
-  font-size: 20px;
-  font-weight: 600;
+  text-align: center;
+  font-size: 34px;
+  font-weight: 700;
   color: var(--color-primary-dark);
 }
 
 .navbar__links {
   display: flex;
+  justify-content: flex-end;
   gap: 8px;
 }
 
