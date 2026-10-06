@@ -22,6 +22,10 @@ export const calculateExpression = (expression) =>
 export const fetchHistory = (params = {}) =>
   apiClient.get('/api/history', { params });
 
+/** Toggle the favorite flag of a history record. */
+export const toggleFavorite = (id) =>
+  apiClient.patch(`/api/history/${id}/favorite`);
+
 /** Delete a single history record by id. */
 export const deleteHistoryRecord = (id) =>
   apiClient.delete(`/api/history/${id}`);

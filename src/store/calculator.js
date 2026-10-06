@@ -10,6 +10,7 @@ import {
   fetchHistory,
   deleteHistoryRecord,
   clearHistory as clearHistoryApi,
+  toggleFavorite as toggleFavoriteApi,
 } from '../api';
 
 const ALLOWED_PATTERN = /^[0-9+\-*/().]*$/;
@@ -28,6 +29,8 @@ export const useCalculatorStore = defineStore('calculator', {
     result: null,
     history: [],
     total: 0,
+    favorites: [],
+    favoritesTotal: 0,
     loading: false,
   }),
 
@@ -110,6 +113,21 @@ export const useCalculatorStore = defineStore('calculator', {
       }
     },
 
+    /** Load only the favorite records from the backend. */
+    async fetchFavorites() {
+      try {
+        const { data } = await fetchHistory({
+          favorite: true,
+          limit: 20,
+        });
+        this.favorites = data.data;
+        this.favoritesTotal = data.total;
+      } catch (error) {
+        // Favorites refresh failures must not interrupt the user.
+        this.favorites = [];
+      }
+    },
+
     /** Delete one record and refresh the list. */
     async removeHistory(id) {
       try {
@@ -127,6 +145,21 @@ export const useCalculatorStore = defineStore('calculator', {
         await clearHistoryApi();
         await this.fetchHistory();
         return { ok: true };
+      } catch (error) {
+        return { ok: false, message: this.resolveErrorMessage(error) };
+      }
+    },
+
+    /**
+     * Toggle the favorite flag of one record and refresh both lists.
+     *
+     * @returns {Promise<{ok: boolean, message?: string, data?: object}>}
+     */
+    async toggleFavorite(id) {
+      try {
+        const { data } = await toggleFavoriteApi(id);
+        await Promise.all([this.fetchHistory(), this.fetchFavorites()]);
+        return { ok: true, data };
       } catch (error) {
         return { ok: false, message: this.resolveErrorMessage(error) };
       }
