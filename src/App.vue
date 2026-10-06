@@ -1,8 +1,7 @@
 <template>
   <div class="app">
     <header class="app__header">
-      <h1 class="app__title">Front-End / Back-End Calculator</h1>
-      <p class="app__subtitle">Vue 3 + Flask · Results computed by the backend</p>
+      <h1 class="app__title">Web Calculator</h1>
     </header>
 
     <main class="app__main">
@@ -117,13 +116,8 @@ body {
 }
 
 .app__title {
-  margin: 0 0 8px;
-  font-size: 28px;
-}
-
-.app__subtitle {
   margin: 0;
-  color: var(--color-muted);
+  font-size: 28px;
 }
 
 .app__main {
