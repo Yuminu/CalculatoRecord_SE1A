@@ -21,6 +21,7 @@ results come entirely from the backend.
 | Framework | Vue 3 (Composition API + `<script setup>`) | ^3.4.38 |
 | Build tool | Vite | ^5.4.2 |
 | State management | Pinia | ^2.2.2 |
+| Routing | Vue Router | ^4.4.5 |
 | HTTP client | Axios | ^1.7.2 |
 | Testing | Vitest + @vue/test-utils + jsdom | ^2.0.5 |
 | Styling | Native CSS (CSS variables) | - |
@@ -104,19 +105,29 @@ studentID_calculator_frontend/
 │   │   └── index.js              # Axios instance and API wrappers
 │   ├── components/
 │   │   ├── Calculator.vue        # Calculator interface
-│   │   └── HistoryPanel.vue      # History panel
+│   │   ├── ConfirmDialog.vue     # In-page confirmation dialog
+│   │   ├── HistoryPanel.vue      # History panel (favorite star)
+│   │   └── Navbar.vue            # Top navigation bar
+│   ├── router/
+│   │   └── index.js              # Routes (/, /favorites)
 │   ├── store/
 │   │   └── calculator.js         # Pinia state management
 │   ├── utils/
 │   │   └── keyMapping.js         # Keyboard shortcuts (reserved)
-│   ├── App.vue                   # Root component
+│   ├── views/
+│   │   ├── HomePage.vue          # Calculator + history page
+│   │   └── FavoritesPage.vue     # Favorites page
+│   ├── App.vue                   # Root component (Navbar + router-view)
 │   └── main.js                   # Entry file
 ├── public/
 │   ├── favicon.svg
 │   └── theme.json                # Theme variables (reserved)
 ├── tests/
-│   ├── store.spec.js             # State management tests
-│   └── calculator.spec.js        # Component tests
+│   ├── calculator.spec.js        # Component tests
+│   ├── confirm-dialog.spec.js    # Dialog tests
+│   ├── favorites-page.spec.js    # Favorites page tests
+│   ├── history-panel.spec.js     # Favorite button tests
+│   └── store.spec.js             # State management tests
 ├── index.html
 ├── vite.config.js
 ├── package.json
@@ -124,6 +135,29 @@ studentID_calculator_frontend/
 ├── README.md
 └── codestyle.md
 ```
+
+## Pages and API
+
+| Route | Page | Description |
+|-------|------|-------------|
+| `/` | `HomePage.vue` | Calculator and history list |
+| `/favorites` | `FavoritesPage.vue` | Records flagged as favorites |
+
+Backend endpoints used by the front end:
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/api/calculate` | Calculate and store an expression |
+| GET | `/api/history` | List history (`limit`, `offset`) |
+| GET | `/api/history?favorite=true` | List only favorite records |
+| PATCH | `/api/history/{id}/favorite` | Toggle the favorite flag |
+| DELETE | `/api/history/{id}` | Delete one record |
+| DELETE | `/api/history` | Clear all history |
+| GET | `/api/health` | Health check |
+
+The star button in the history list (and on the favorites page) calls
+`PATCH /api/history/{id}/favorite`; the icon fills (★) or empties (☆)
+according to `is_favorite`.
 
 ## Testing
 
