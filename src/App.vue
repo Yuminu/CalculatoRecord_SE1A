@@ -21,6 +21,16 @@
         @refresh="store.fetchHistory"
       />
     </main>
+
+    <ConfirmDialog
+      :visible="showClearConfirm"
+      title="清空全部历史"
+      message="确定要清空所有历史记录吗？此操作不可撤销。"
+      confirm-text="确认清空"
+      cancel-text="取消"
+      @confirm="confirmClearAll"
+      @cancel="showClearConfirm = false"
+    />
   </div>
 </template>
 
@@ -29,12 +39,16 @@
  * Root component: wires the two child components to the Pinia store and
  * displays native alert dialogs for backend/network errors.
  */
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import Calculator from './components/Calculator.vue';
+import ConfirmDialog from './components/ConfirmDialog.vue';
 import HistoryPanel from './components/HistoryPanel.vue';
 import { useCalculatorStore } from './store/calculator';
 
 const store = useCalculatorStore();
+
+// Controls the in-page confirmation dialog for "clear all history".
+const showClearConfirm = ref(false);
 
 const onCalculate = async () => {
   const response = await store.calculate();
@@ -50,10 +64,12 @@ const onDelete = async (id) => {
   }
 };
 
-const onClearAll = async () => {
-  if (!window.confirm('确定要清空所有历史记录吗？')) {
-    return;
-  }
+const onClearAll = () => {
+  showClearConfirm.value = true;
+};
+
+const confirmClearAll = async () => {
+  showClearConfirm.value = false;
   const response = await store.clearAllHistory();
   if (!response.ok) {
     window.alert(response.message);
