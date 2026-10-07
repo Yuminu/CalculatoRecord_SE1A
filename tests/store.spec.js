@@ -116,4 +116,19 @@ describe('calculator store', () => {
     expect(store.favorites).toHaveLength(1);
     expect(store.favoritesTotal).toBe(1);
   });
+
+  it('treats a 502 from the proxy as a backend-down error', async () => {
+    const store = useCalculatorStore();
+    store.setExpression('1+1');
+    api.calculateExpression.mockRejectedValue({
+      response: { status: 502, data: '' },
+    });
+
+    const response = await store.calculate();
+
+    expect(response.ok).toBe(false);
+    expect(response.message).toBe(
+      'Network error. Please check that the backend service is running.',
+    );
+  });
 });

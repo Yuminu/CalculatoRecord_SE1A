@@ -66,7 +66,11 @@ export const useCalculatorStore = defineStore('calculator', {
         return MESSAGE.network;
       }
       const { status, data } = error.response;
-      if (status === 500) {
+      // 502/503/504 mean the reverse proxy could not reach the backend.
+      if ([502, 503, 504].includes(status)) {
+        return MESSAGE.network;
+      }
+      if (status >= 500) {
         return MESSAGE.server;
       }
       if (data && data.message) {
